@@ -34,7 +34,7 @@ export default function Home() {
         </div>
       </div>
 
-			<p>テスト</p>
+			<p>テストトップページ</p>
 			<Link href='/exmple'>下層ページ</Link>
 
 
