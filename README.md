@@ -38,23 +38,23 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 
-## テスト環境 basic
+# テスト環境 basic
 ブランチ dev をpush
 https://dev.d3jo8pviimi3an.amplifyapp.com/
 keiichiLetdown / testdev
 
 
-## wordpress
+# wordpress
 info@kurokawa-dw.com
 V2h7mv#Cesg%SzEJm^
 
-## DB
-# phpmyadmin
+# DB
+## phpmyadmin
 phpmyadmin-sv1053.xserver.jp
 
-# db_name
+## db_name
 kurokawadw_letdown
 
-# db_account
+## db_account
 kurokawadw_wplet
 y9nh5s7g
