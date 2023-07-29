@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
 	images: {
     domains: [
-    	process.env.WORDPRESS_API_URL.match(/(?!(w+)\.)\w*(?:\w+\.)+\w+/)[0], // Valid WP Image domain.
+    	process.env.NEXT_PUBLIC_WORDPRESS_API_URL.match(/(?!(w+)\.)\w*(?:\w+\.)+\w+/)[0], // Valid WP Image domain.
     ],
   },
 }
