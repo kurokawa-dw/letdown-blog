@@ -58,3 +58,7 @@ kurokawadw_letdown
 ## db_account
 kurokawadw_wplet
 y9nh5s7g
+
+## 注意
+現時点では記事投稿時にアイキャッチ画像をちゃんと入れないとエラーがでちゃうよ。
+あとで直そう

@@ -15,6 +15,9 @@ module.exports = {
 			fontFamily: {
 				'body': ['Noto Sans JP', 'sans-serif'],
 				'accent': ['YuGothic', 'sans-serif']
+			},
+			width: {
+				'main': 'clamp(0vw, 1000px, 90vw)' //最小値、理想値、最大値
 			}
     },
   },

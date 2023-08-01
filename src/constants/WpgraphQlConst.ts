@@ -1,18 +1,3 @@
-// export class WpGraphQlPostConst {
-// 	static list = `query PostListQuery {
-// 		posts {
-// 			edges {
-// 				node {
-// 					title
-// 					id
-// 					date
-// 					content
-// 				}
-// 			}
-// 		}
-// 	}`
-// }
-
 export class WpGraphQlPostConst {
 	static list = `query PostListQuery {
 		posts {
@@ -36,6 +21,16 @@ export class WpGraphQlPostConst {
 							sourceUrl
 						}
 					}
+				}
+			}
+		}
+	}`
+
+	static allSlugList = `query PostAllSugListQuery {
+		posts(first: 10000) {
+			edges {
+				node {
+					slug
 				}
 			}
 		}

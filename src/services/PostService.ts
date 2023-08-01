@@ -28,6 +28,20 @@ class PostService {
 			return[]
 		}
 	}
+
+
+	static async getAllSlugList(): Promise<{
+		params: { slug: string }
+	}[]>{
+		try {
+			const res = await RepositoryFactory.post.getAllSlugList()
+			return res.data.data.posts.edges.map((data: any) => {
+				return { params: {slug: data.node.slug}}
+			})
+		} catch {
+			return[]
+		}
+	}
 }
 
 export default PostService
