@@ -5,7 +5,7 @@ class PostService {
 	static async getList(): Promise<PostType[]>{
 		try {
 			const res = await RepositoryFactory.post.getList()
-			console.log(res)
+			// console.log(res)
 			return res.data.data.posts.edges.map((data: any) => {
 				const post: PostType = {
 					id: data.node.id,
@@ -30,9 +30,33 @@ class PostService {
 	}
 
 
-	static async getAllSlugList(): Promise<{
-		params: { slug: string }
-	}[]>{
+	static async getOne({id}: {id:string}): Promise<PostType>{
+		try {
+			const res = await RepositoryFactory.post.getOne({id})
+			// console.log(res)
+			const data = res.data.data.post
+			const post: PostType = {
+				id: data.id,
+				title: data.title,
+				slug: data.slug,
+				date: data.date,
+				excerpt: data.excerpt,
+				featuredImage: {
+					url: data.featuredImage.node.sourceUrl
+				},
+				category: {
+					slug: data.categories.edges[0].node.slug,
+					name: data.categories.edges[0].node.name,
+				}
+			}
+			return post
+		} catch {
+			throw Error()
+		}
+	}
+
+
+	static async getAllSlugList(): Promise<{params: { slug: string }}[]>{
 		try {
 			const res = await RepositoryFactory.post.getAllSlugList()
 			return res.data.data.posts.edges.map((data: any) => {

@@ -30,7 +30,7 @@ export async function getStaticProps() {
 const Home: NextPage<{staticPostList: PostType[]}> = ({ staticPostList }) => {
 	const postList = usePostListSwr(staticPostList)
 
-	console.log(postList)
+	// console.log(postList)
   return (
 		<Layout>
 			<div className='flex w-main mx-auto'>

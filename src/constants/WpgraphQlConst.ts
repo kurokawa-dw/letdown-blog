@@ -26,6 +26,29 @@ export class WpGraphQlPostConst {
 		}
 	}`
 
+	static one = `query PostQuery($id: ID!) {
+		post(id: $id, idType: SLUG) {
+			title
+			id
+			date
+			slug
+			excerpt
+			categories {
+				edges {
+					node {
+						slug
+						name
+					}
+				}
+			}
+			featuredImage {
+				node {
+					sourceUrl
+				}
+			}
+		}
+	}`
+
 	static allSlugList = `query PostAllSugListQuery {
 		posts(first: 10000) {
 			edges {

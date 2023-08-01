@@ -1,5 +1,7 @@
 import { NextPage } from "next"
 import PostService from "@/services/PostService"
+import PostType from "@/types/PostType"
+
 
 
 import type {
@@ -13,24 +15,25 @@ type Repo = {
   stargazers_count: number
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths = async () => {
 	const paths = await PostService.getAllSlugList();
+	// console.log(paths)
   return {
     paths: paths,
     fallback: false, // false or "blocking"
   }
 }
 
-export const getStaticProps: GetStaticProps<{repo: Repo}> = async () => {
-  // const res = await fetch('https://api.github.com/repos/vercel/next.js')
-  // const repo = await res.json()
-  return { props: { } }
+export const getStaticProps = async ({params}: {params: {slug: string}}) => {
+  const staticPost = await PostService.getOne({id: params.slug})
+  return { props: { staticPost } }
 }
 
-const Post: NextPage = () => {
+const Post: NextPage<{staticPost: PostType}> = ({staticPost}) => {
+	// console.log(staticPost)
 	return (
 		<div>
-			記事詳細です
+			{staticPost.title}
 		</div>
 	)
 }
