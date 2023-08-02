@@ -52,3 +52,17 @@ const Home: NextPage<{staticPostList: PostOnListType[]}> = ({ staticPostList }) 
 
 
 export default Home
+
+/**
+ * const Home = ()=>{
+ * 	この中でのコードはフロント側の処理
+ * }
+ */
+
+/**
+ * postList!.map((post) => {
+ * の「!」は非nullアサーションといって、
+ * 通常の場合、postList（配列やオブジェクト）がnullだった場合エラーがでるが、
+ * !をつけるとエラーを無視してコードを実行する
+ * typescriptの構文
+ */

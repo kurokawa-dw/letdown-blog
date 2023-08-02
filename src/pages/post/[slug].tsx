@@ -1,17 +1,34 @@
 import { NextPage } from "next"
 import PostService from "@/services/PostService"
 import PostType from "@/types/PostType"
-import type {
-  InferGetStaticPropsType,
-  GetStaticProps,
-  GetStaticPaths,
-} from 'next'
 import usePostSwr from "@/hooks/swr/usePostSwr"
 
 
 type Repo = {
   name: string
   stargazers_count: number
+}
+
+const Post: NextPage<{
+	slug: string,
+  staticPost: PostType
+}> = ({slug, staticPost}) => {
+	const post = usePostSwr({ id: slug, staticPost })
+	console.log(post)
+	// console.log(staticPost)
+	return (
+		<>
+			<div>
+				{/* {post && post!.title} */}
+				{/* {post && post!.content} */}
+				{post && post!.content}
+			</div>
+			<div>
+				{/* {staticPost.content} */}
+				{/* {post && post!.content} */}
+			</div>
+		</>
+	)
 }
 
 export const getStaticPaths = async () => {
@@ -26,7 +43,8 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({params}: {params: {slug: string}}) => {
 	const slug = params.slug
   const staticPost = await PostService.getOne({ id: slug })
-
+  // const staticPost = await PostService.getOne({ id: 'test2' })
+	console.log(staticPost)
 	if (!staticPost) {
 		return { notFound: true } // errorの場合404
 	}
@@ -36,26 +54,9 @@ export const getStaticProps = async ({params}: {params: {slug: string}}) => {
 			slug,
 			staticPost
 		},
-		revalidate: 10
+		revalidate: 10 //wp更新後 最初にアクセスがあった10秒後にssgがbuild これすごいね
 
 	}
-}
-
-const Post: NextPage<{
-	slug: string
-	staticPost: PostType
-}> = ({staticPost, slug}) => {
-	const post = usePostSwr({ id: slug, staticPost })
-	return (
-		<>
-			<div>
-				{post && post!.title}
-			</div>
-			<div>
-				{post && post!.content}
-			</div>
-		</>
-	)
 }
 
 export default Post

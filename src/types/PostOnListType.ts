@@ -1,5 +1,5 @@
-import CategoryType from "./CategoryType"
 import FeaturedImageType from "./FeaturedImageType"
+import CategoryType from "./CategoryType"
 
 interface PostOnListType {
 	id: string

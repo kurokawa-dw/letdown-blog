@@ -3,6 +3,7 @@ import PostType from "@/types/PostType";
 import PostOnListType from "@/types/PostOnListType";
 
 class PostService {
+	// 記事一覧取得
 	static async getList(): Promise<PostOnListType[]>{
 		try {
 			const res = await RepositoryFactory.post.getList()
@@ -31,12 +32,11 @@ class PostService {
 	}
 
 
-	static async getOne({id}: {
-		id:string
-	}): Promise<PostType | null>{
+	static async getOne({ id }: {
+		id: string
+	}): Promise<PostType | null> { // エラーがあればnullを返す
 		try {
-			const res = await RepositoryFactory.post.getOne({id})
-			// console.log(res)
+			const res = await RepositoryFactory.post.getOne({ id }) // idを引数に取る
 			const data = res.data.data.post
 			const post: PostType = {
 				id: data.id,
@@ -49,17 +49,25 @@ class PostService {
 				},
 				category: {
 					slug: data.categories.edges[0].node.slug,
-					name: data.categories.edges[0].node.name,
+					name: data.categories.edges[0].node.name
 				}
 			}
-			return post
+			console.log('ok')
+			return post // 配列ではなくPostTypeを返す
 		} catch {
-			// return null
+			console.log('エラー')
+			return null // エラーがあればnullを返す
+			// throw Error()
 		}
 	}
 
 
-	static async getAllSlugList(): Promise<{params: { slug: string }}[]>{
+
+	static async getAllSlugList(): Promise<{
+		params: {
+			slug: string
+		}
+	}[]>{
 		try {
 			const res = await RepositoryFactory.post.getAllSlugList()
 			return res.data.data.posts.edges.map((data: any) => {
@@ -72,3 +80,31 @@ class PostService {
 }
 
 export default PostService
+
+
+	// static async getOne({id}: {
+	// 	id:string
+	// }): Promise<PostType | null>{
+	// 	try {
+	// 		const res = await RepositoryFactory.post.getOne({id})
+	// 		// console.log(res)
+	// 		const data = res.data.data.post
+	// 		const post: PostType = {
+	// 			id: data.id,
+	// 			title: data.title,
+	// 			slug: data.slug,
+	// 			date: data.date,
+	// 			content: data.content,
+	// 			featuredImage: {
+	// 				url: data.featuredImage.node.sourceUrl
+	// 			},
+	// 			category: {
+	// 				slug: data.categories.edges[0].node.slug,
+	// 				name: data.categories.edges[0].node.name,
+	// 			}
+	// 		}
+	// 		return post
+	// 	} catch {
+	// 		return null
+	// 	}
+	// }

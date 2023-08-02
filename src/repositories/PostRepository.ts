@@ -6,12 +6,16 @@ class PostRepository {
 		return Repository(WpGraphQlPostConst.list).getWp()
 	}
 
-	static getOne({ id }: {
+	static getOne({ id }: { // idを引数にとる
 		id: string
-	}){
-		return Repository(WpGraphQlPostConst.one,{variables: {id: id}}).getWp()
+	}) {
+		return Repository(
+			WpGraphQlPostConst.one,
+			{ variables: { id } } // ココが今までと違う！ これはNext公式のお作法だと思って
+		).getWp()
 	}
 
+	// slug一覧を取得
 	static getAllSlugList(){
 		return Repository(WpGraphQlPostConst.allSlugList).getWp()
 	}
