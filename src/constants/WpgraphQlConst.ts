@@ -32,7 +32,7 @@ export class WpGraphQlPostConst {
 			id
 			date
 			slug
-			excerpt
+			content
 			categories {
 				edges {
 					node {

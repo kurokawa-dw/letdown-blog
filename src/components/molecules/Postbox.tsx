@@ -1,11 +1,11 @@
-import PostType from "@/types/PostType"
+import PostOnListType from "@/types/PostOnListType"
 import ArticleHeading from "../atoms/text/ArticleHeading"
 import DateText from "../atoms/text/DateText"
 import CategoryLabel from "../atoms/label/CategoryLabel"
 import CommImage from "../atoms/image/CommImage"
 import Link from "next/link"
 
-const Postbox = ({post}: {post: PostType}) => {
+const Postbox = ({post}: {post: PostOnListType}) => {
 	return (
 		<article className='shadow-sm shadow-gray-200'>
 			<div>

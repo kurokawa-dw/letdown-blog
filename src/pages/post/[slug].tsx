@@ -1,14 +1,13 @@
 import { NextPage } from "next"
 import PostService from "@/services/PostService"
 import PostType from "@/types/PostType"
-
-
-
 import type {
   InferGetStaticPropsType,
   GetStaticProps,
   GetStaticPaths,
 } from 'next'
+import usePostSwr from "@/hooks/swr/usePostSwr"
+
 
 type Repo = {
   name: string
@@ -25,16 +24,37 @@ export const getStaticPaths = async () => {
 }
 
 export const getStaticProps = async ({params}: {params: {slug: string}}) => {
-  const staticPost = await PostService.getOne({id: params.slug})
-  return { props: { staticPost } }
+	const slug = params.slug
+  const staticPost = await PostService.getOne({ id: slug })
+
+	if (!staticPost) {
+		return { notFound: true } // errorの場合404
+	}
+
+  return {
+		props: {
+			slug,
+			staticPost
+		},
+		revalidate: 10
+
+	}
 }
 
-const Post: NextPage<{staticPost: PostType}> = ({staticPost}) => {
-	// console.log(staticPost)
+const Post: NextPage<{
+	slug: string
+	staticPost: PostType
+}> = ({staticPost, slug}) => {
+	const post = usePostSwr({ id: slug, staticPost })
 	return (
-		<div>
-			{staticPost.title}
-		</div>
+		<>
+			<div>
+				{post && post!.title}
+			</div>
+			<div>
+				{post && post!.content}
+			</div>
+		</>
 	)
 }
 

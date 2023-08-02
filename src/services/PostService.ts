@@ -1,13 +1,14 @@
 import RepositoryFactory from "@/repositories/RepositoryFactory";
 import PostType from "@/types/PostType";
+import PostOnListType from "@/types/PostOnListType";
 
 class PostService {
-	static async getList(): Promise<PostType[]>{
+	static async getList(): Promise<PostOnListType[]>{
 		try {
 			const res = await RepositoryFactory.post.getList()
 			// console.log(res)
 			return res.data.data.posts.edges.map((data: any) => {
-				const post: PostType = {
+				const post: PostOnListType = {
 					id: data.node.id,
 					title: data.node.title,
 					slug: data.node.slug,
@@ -30,7 +31,9 @@ class PostService {
 	}
 
 
-	static async getOne({id}: {id:string}): Promise<PostType>{
+	static async getOne({id}: {
+		id:string
+	}): Promise<PostType | null>{
 		try {
 			const res = await RepositoryFactory.post.getOne({id})
 			// console.log(res)
@@ -40,7 +43,7 @@ class PostService {
 				title: data.title,
 				slug: data.slug,
 				date: data.date,
-				excerpt: data.excerpt,
+				content: data.content,
 				featuredImage: {
 					url: data.featuredImage.node.sourceUrl
 				},
@@ -51,7 +54,7 @@ class PostService {
 			}
 			return post
 		} catch {
-			throw Error()
+			// return null
 		}
 	}
 

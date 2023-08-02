@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import Image from 'next/image'
 import { Inter, Noto_Sans_JP } from 'next/font/google'
 import PostService from '@/services/PostService';
-import PostType from '@/types/PostType';
+import PostOnListType from '@/types/PostOnListType';
 import usePostListSwr from '@/hooks/swr/usePostListSwr';
 import Postbox from '@/components/molecules/Postbox';
 import Layout from '@/components/templates/Layout';
@@ -27,7 +27,7 @@ export async function getStaticProps() {
 	}
 }
 
-const Home: NextPage<{staticPostList: PostType[]}> = ({ staticPostList }) => {
+const Home: NextPage<{staticPostList: PostOnListType[]}> = ({ staticPostList }) => {
 	const postList = usePostListSwr(staticPostList)
 
 	// console.log(postList)
