@@ -24,4 +24,5 @@ export default usePostSwr
  * コールバックの引数は配列で！
  * 公式ドキュメントに書いてあった
  * https://swr.vercel.app/ja/docs/arguments
+ * https://zenn.dev/yukikoma/articles/17adad7fedd5af
  */
