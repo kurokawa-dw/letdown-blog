@@ -1,5 +1,5 @@
 import PostOnListType from "@/types/PostOnListType"
-import ArticleHeading from "../atoms/text/ArticleHeading"
+import ArticleOnListHeading from "../atoms/text/ArticleOnListHeading"
 import DateText from "../atoms/text/DateText"
 import CategoryLabel from "../atoms/label/CategoryLabel"
 import CommImage from "../atoms/image/CommImage"
@@ -24,7 +24,7 @@ const Postbox = ({post}: {post: PostOnListType}) => {
 				</div>
 				<div className="mb-2">
 					<Link href={`/post/${post.slug}`}>
-						<ArticleHeading>{post.title}</ArticleHeading>
+						<ArticleOnListHeading>{post.title}</ArticleOnListHeading>
 					</Link>
 				</div>
 				<div dangerouslySetInnerHTML={{__html: post.excerpt}}></div>
