@@ -4,9 +4,11 @@ import PostOnListType from "@/types/PostOnListType";
 
 class PostService {
 	// 記事一覧取得
-	static async getList(): Promise<PostOnListType[]>{
+	static async getList({ categoryId }: {
+		categoryId?: number
+	}): Promise<PostOnListType[]>{
 		try {
-			const res = await RepositoryFactory.post.getList()
+			const res = await RepositoryFactory.post.getList({ categoryId })
 			// console.log(res)
 			return res.data.data.posts.edges.map((data: any) => {
 				const post: PostOnListType = {
@@ -77,34 +79,22 @@ class PostService {
 			return[]
 		}
 	}
+
+
+	static async getAllCategorySlugList(): Promise<{
+		params: {
+			slug: string
+		}
+	}[]>{
+		try {
+			const res = await RepositoryFactory.post.getAllCategorySlugList()
+			return res.data.data.categories.edges.map((data: any) => {
+				return { params: {slug: data.node.slug}}
+			})
+		} catch {
+			return[]
+		}
+	}
 }
 
 export default PostService
-
-
-	// static async getOne({id}: {
-	// 	id:string
-	// }): Promise<PostType | null>{
-	// 	try {
-	// 		const res = await RepositoryFactory.post.getOne({id})
-	// 		// console.log(res)
-	// 		const data = res.data.data.post
-	// 		const post: PostType = {
-	// 			id: data.id,
-	// 			title: data.title,
-	// 			slug: data.slug,
-	// 			date: data.date,
-	// 			content: data.content,
-	// 			featuredImage: {
-	// 				url: data.featuredImage.node.sourceUrl
-	// 			},
-	// 			category: {
-	// 				slug: data.categories.edges[0].node.slug,
-	// 				name: data.categories.edges[0].node.name,
-	// 			}
-	// 		}
-	// 		return post
-	// 	} catch {
-	// 		return null
-	// 	}
-	// }
