@@ -14,9 +14,11 @@ const Home: NextPage<{
 	staticPostList: PostOnListType[],
 	staticTotal: number,
 	currentPage: number
-}> = ({ staticPostList, staticTotal, currentPage }) => {
-	const [postList, total] = usePostListSwr({currentPage, staticPostList, staticTotal})
-	// const postList = staticPostList
+	staticCategoryId: number | null
+}> = ({ staticPostList, staticTotal, currentPage, staticCategoryId }) => {
+	const categoryId = staticCategoryId ?? undefined
+	const [postList, total] = usePostListSwr({currentPage, staticPostList, staticTotal, categoryId})
+	// const [postList, total] = [staticPostList, staticTotal]
 
   return (
 		<Layout>
@@ -47,7 +49,8 @@ export const getStaticPaths = async () => {
 			{ params: { param: ['page', '1'] } },
 			{ params: { param: ['page', '2'] } },
 			{ params: { param: ['category', 'test', 'page', '1'] } },
-			{ params: { param: ['category', 'test2', 'page', '2'] } }
+			{ params: { param: ['category', 'test', 'page', '2'] } },
+			{ params: { param: ['category', 'test2', 'page', '1'] } }
 		],
 		fallback: false
 	}
@@ -56,27 +59,38 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({ params }: {
 	params: {
-		page: string,
-		// param: [string, string] || [string,string,string,string]
+		// page: string,
+		param: [string, string] | [string,string,string,string]
 	}
 }) => {
-	const currentPage = parseInt(params.page);
-	const [staticPostList, staticTotal] = await PostService.getList({page: currentPage})
+	// console.log(params.param)
+	const param = params.param
+	let currentPage = 1
+	let categoryId: number | undefined
+
+	if(param.length === 2 && param[0] === 'page'){
+		currentPage = parseInt(param[1])
+	} else if(param.length === 4 && param[0] === 'category' && param[2] === 'page'){
+		categoryId = await PostService.getCategoryIdBySlug({ slug: param[1] });
+		currentPage = parseInt(param[3])
+	}
+
+	const [staticPostList, staticTotal] = await PostService.getList({page: currentPage, categoryId})
 	return {
 		props: {
 			staticPostList,
 			staticTotal,
-			currentPage
+			currentPage,
+			staticCategoryId: categoryId ?? null
 		},
 		revalidate: 10 //wp更新後 最初にアクセスがあった10秒後にssgがbuild これすごいね
 	}
 }
 
-
-
-
-
 export default Home
+
+
+
 
 /**
  * const Home = ()=>{
