@@ -99,4 +99,14 @@ export class WpGraphQlPostConst {
 			categoryId
 		}
 	}`
+
+	static total = `query PostTotalQuery {
+		posts {
+			pageInfo {
+				offsetPagination {
+					total
+				}
+			}
+		}
+	}`
 }

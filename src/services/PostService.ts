@@ -107,6 +107,11 @@ class PostService {
 		return res.data.data.category.categoryId
 	}
 
+	static async getTotal(): Promise<number>{
+		const res = await RepositoryFactory.post.getTotal()
+		return res.data.data.posts.pageInfo.offsetPagination.total
+	}
+
 
 	private static _makeOffsetPaginationFromPage(page: number): OffsetPaginationType{
 		return {offset: (page - 1) * PostConst.sizePerPage, size: PostConst.sizePerPage}

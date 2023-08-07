@@ -51,6 +51,10 @@ class PostRepository {
 			{ variables: {id: slug} }
 		).getWp()
 	}
+
+	static getTotal() {
+		return Repository(WpGraphQlPostConst.total,).getWp()
+	}
 }
 
 export default PostRepository
