@@ -10,7 +10,7 @@ import Layout from '@/components/templates/Layout';
 
 
 const Home: NextPage<{staticPostList: PostOnListType[]}> = ({ staticPostList }) => {
-	const postList = usePostListSwr(staticPostList)
+	const postList = usePostListSwr({staticPostList})
 
   return (
 		<Layout>

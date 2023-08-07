@@ -8,10 +8,11 @@ import Layout from '@/components/templates/Layout';
 
 
 const PostListByCategory: NextPage<{
+	categoryId: number
 	staticPostList: PostOnListType[]
-}> = ({ staticPostList }) => {
-	// const postList = usePostListSwr(staticPostList)
-	const postList = staticPostList
+}> = ({categoryId, staticPostList }) => {
+	const postList = usePostListSwr({categoryId, staticPostList})
+	// const postList = staticPostList
 	console.log(postList)
 
   return (
@@ -43,10 +44,12 @@ export const getStaticProps = async ({ params }: {
 	}
 }) => {
 	const slug = params.slug
-	const staticPostList = await PostService.getList({ categoryId: 4 })
+	const categoryId = await PostService.getCategoryIdBySlug({ slug });
+	const staticPostList = await PostService.getList({ categoryId })
 
 	return {
 		props: {
+			categoryId,
 			staticPostList
 		},
 		revalidate: 10

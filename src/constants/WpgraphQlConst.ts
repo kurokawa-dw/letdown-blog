@@ -93,4 +93,10 @@ export class WpGraphQlPostConst {
 			}
 		}
 	}`
+
+	static categoryIdBySlug = `query PostCategoryIdBySlugQuery($id: ID!) {
+		category(id: $id, idType: SLUG) {
+			categoryId
+		}
+	}`
 }

@@ -6,7 +6,7 @@ import Layout from "@/components/templates/Layout"
 import CommImage from "@/components/atoms/image/CommImage"
 import CategoryLabel from "@/components/atoms/label/CategoryLabel"
 import DateText from "@/components/atoms/text/DateText"
-import PostHeading from "@/components/atoms/text/postHeading"
+import PostHeading from "@/components/atoms/text/PostHeading"
 import Link from "next/link"
 
 const Post: NextPage<{

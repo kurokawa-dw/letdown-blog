@@ -35,6 +35,17 @@ class PostRepository {
 	static getAllCategorySlugList(){
 		return Repository(WpGraphQlPostConst.allCategorySlugList).getWp()
 	}
+
+
+	// カテゴリーを取得
+	static getCategoryIdBySlug({ slug }: {
+		slug: string
+	}){
+		return Repository(
+			WpGraphQlPostConst.categoryIdBySlug,
+			{ variables: {id: slug} }
+		).getWp()
+	}
 }
 
 export default PostRepository
