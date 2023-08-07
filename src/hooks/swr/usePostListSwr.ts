@@ -14,7 +14,7 @@ const usePostListSwr = ({categoryId, staticPostList}: {
 		fetcher = ([_, categoryId]: [string, number]) => PostService.getList({page: 1, categoryId})
 	} else {
 		key = [WpGraphQlPostConst.list,]
-		fetcher = ([_]: [string]) => PostService.getList({page: 3})
+		fetcher = ([_]: [string]) => PostService.getList({page: 1})
 	}
 
 	const {data: postList} = useSWR(

@@ -2,6 +2,7 @@ import RepositoryFactory from "@/repositories/RepositoryFactory";
 import PostType from "@/types/PostType";
 import PostOnListType from "@/types/PostOnListType";
 import OffsetPaginationType from "@/types/OffsetPaginationType";
+import PostConst from "@/constants/PostConst";
 
 class PostService {
 	// 記事一覧取得
@@ -108,7 +109,7 @@ class PostService {
 
 
 	private static _makeOffsetPaginationFromPage(page: number): OffsetPaginationType{
-		return {offset: (page - 1) * 9, size: 9}
+		return {offset: (page - 1) * PostConst.sizePerPage, size: PostConst.sizePerPage}
 	}
 }
 
