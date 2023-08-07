@@ -17,7 +17,7 @@ const PostListByCategory: NextPage<{
 
   return (
 		<Layout>
-			<div className='flex w-main mx-auto'>
+			<div className='flex flex-wrap w-main mx-auto'>
 				{postList!.map((post) => {
 					return (
 						<div key={post.id} className='w-1/3 pr-4 pb-4 [&:nth-child(3n)]:pr-0'>
@@ -45,7 +45,7 @@ export const getStaticProps = async ({ params }: {
 }) => {
 	const slug = params.slug
 	const categoryId = await PostService.getCategoryIdBySlug({ slug });
-	const staticPostList = await PostService.getList({ categoryId })
+	const staticPostList = await PostService.getList({ page: 1, categoryId })
 
 	return {
 		props: {

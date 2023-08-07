@@ -43,8 +43,8 @@ export class WpGraphQlPostConst {
 	`
 
 	// 全一覧
-	static list = `query PostListQuery {
-		posts {
+	static list = `query PostListQuery($offsetPagination: OffsetPagination) {
+		posts(where: {offsetPagination: $offsetPagination}) {
 			edges {
 				node {
 					${this._itemsOnList}
@@ -54,8 +54,8 @@ export class WpGraphQlPostConst {
 	}`
 
 	// カテゴリー一覧
-	static listByCategory = `query PostListByCategoryQuery($categoryId: Int) {
-		posts(where: {categoryId: $categoryId}) {
+	static listByCategory = `query PostListByCategoryQuery($offsetPagination: OffsetPagination, $categoryId: Int) {
+		posts(where: {offsetPagination: $offsetPagination, categoryId: $categoryId}) {
 			edges {
 				node {
 					${this._itemsOnList}

@@ -1,14 +1,17 @@
 import RepositoryFactory from "@/repositories/RepositoryFactory";
 import PostType from "@/types/PostType";
 import PostOnListType from "@/types/PostOnListType";
+import OffsetPaginationType from "@/types/OffsetPaginationType";
 
 class PostService {
 	// 記事一覧取得
-	static async getList({ categoryId }: {
+	static async getList({ page, categoryId }: {
+		page: number,
 		categoryId?: number
 	}): Promise<PostOnListType[]>{
 		try {
-			const res = await RepositoryFactory.post.getList({ categoryId })
+			const offsetPagination = this._makeOffsetPaginationFromPage(page)
+			const res = await RepositoryFactory.post.getList({ offsetPagination, categoryId })
 			// console.log(res)
 			return res.data.data.posts.edges.map((data: any) => {
 				const post: PostOnListType = {
@@ -101,6 +104,11 @@ class PostService {
 	}): Promise<number> {
 		const res = await RepositoryFactory.post.getCategoryIdBySlug({ slug })
 		return res.data.data.category.categoryId
+	}
+
+
+	private static _makeOffsetPaginationFromPage(page: number): OffsetPaginationType{
+		return {offset: (page - 1) * 9, size: 9}
 	}
 }
 

@@ -14,7 +14,7 @@ const Home: NextPage<{staticPostList: PostOnListType[]}> = ({ staticPostList }) 
 
   return (
 		<Layout>
-			<div className='flex w-main mx-auto'>
+			<div className='flex flex-wrap w-main mx-auto'>
 				{postList!.map((post) => {
 					return (
 						<div key={post.id} className='w-1/3 pr-4 pb-4 [&:nth-child(3n)]:pr-0'>
@@ -28,7 +28,7 @@ const Home: NextPage<{staticPostList: PostOnListType[]}> = ({ staticPostList }) 
 }
 
 export async function getStaticProps() {
-	const staticPostList = await PostService.getList({})
+	const staticPostList = await PostService.getList({page: 1})
 	return {
 		props: {
 			staticPostList

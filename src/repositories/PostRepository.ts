@@ -1,18 +1,23 @@
 import { WpGraphQlPostConst } from "@/constants/WpgraphQlConst";
 import Repository from "./Repository";
+import OffsetPaginationType from "@/types/OffsetPaginationType";
 
 class PostRepository {
-	static getList({categoryId}: { //categoryIdという引数名は queryの引数でしているやつ
+	static getList({offsetPagination, categoryId}: { //categoryIdという引数名は queryの引数でしているやつ
+		offsetPagination: OffsetPaginationType,
 		categoryId?: number
 	}){
 
 		if(categoryId){
 			return Repository(
 				WpGraphQlPostConst.listByCategory,
-				{ variables: { categoryId } }
+				{ variables: { offsetPagination, categoryId } }
 			).getWp()
 		} else {
-			return Repository(WpGraphQlPostConst.list).getWp()
+			return Repository(
+				WpGraphQlPostConst.list,
+				{ variables: { offsetPagination } }
+			).getWp()
 		}
 
 	}
