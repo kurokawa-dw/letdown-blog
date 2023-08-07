@@ -3,25 +3,27 @@ import { WpGraphQlPostConst } from '@/constants/WpgraphQlConst'
 import PostOnListType from '@/types/PostOnListType'
 import PostService from '@/services/PostService'
 
-const usePostListSwr = ({categoryId, staticPostList}: {
+const usePostListSwr = ({ currentPage, categoryId, staticPostList, staticTotal}: {
+	currentPage: number
 	categoryId?: number
 	staticPostList: PostOnListType[]
+	staticTotal: number
 }) => { // 初期値を引数にとる
 	let key, fetcher
 
 	if(categoryId){
-		key = [WpGraphQlPostConst.categoryIdBySlug, categoryId]
-		fetcher = ([_, categoryId]: [string, number]) => PostService.getList({page: 1, categoryId})
+		key = [WpGraphQlPostConst.categoryIdBySlug, currentPage, categoryId]
+		fetcher = ([_, page, categoryId]: [string, number, number]) => PostService.getList({page: page, categoryId})
 	} else {
-		key = [WpGraphQlPostConst.list,]
-		fetcher = ([_]: [string]) => PostService.getList({page: 1})
+		key = [WpGraphQlPostConst.list, currentPage]
+		fetcher = ([_, page]: [string, number]) => PostService.getList({page: page})
 	}
 
-	const {data: postList} = useSWR(
+	const {data} = useSWR<[PostOnListType[], number]>(
 		key, // key
 		fetcher, // fetcher
-		{fallbackData: staticPostList}) // 初期値
-	return postList
+		{fallbackData: [staticPostList, staticTotal]}) // 初期値
+	return data ?? [staticPostList, staticTotal]
 }
 
 export default usePostListSwr

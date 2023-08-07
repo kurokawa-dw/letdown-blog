@@ -50,6 +50,11 @@ export class WpGraphQlPostConst {
 					${this._itemsOnList}
 				}
 			}
+			pageInfo {
+				offsetPagination {
+					total
+				}
+			}
 		}
 	}`
 
@@ -59,6 +64,11 @@ export class WpGraphQlPostConst {
 			edges {
 				node {
 					${this._itemsOnList}
+				}
+			}
+			pageInfo {
+				offsetPagination {
+					total
 				}
 			}
 		}

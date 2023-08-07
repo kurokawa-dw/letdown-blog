@@ -11,7 +11,7 @@ const PostListByCategory: NextPage<{
 	categoryId: number
 	staticPostList: PostOnListType[]
 }> = ({categoryId, staticPostList }) => {
-	const postList = usePostListSwr({categoryId, staticPostList})
+	const [postList, _] = usePostListSwr({currentPage: 1, categoryId, staticPostList, staticTotal: 9})
 	// const postList = staticPostList
 	console.log(postList)
 
@@ -45,7 +45,7 @@ export const getStaticProps = async ({ params }: {
 }) => {
 	const slug = params.slug
 	const categoryId = await PostService.getCategoryIdBySlug({ slug });
-	const staticPostList = await PostService.getList({ page: 1, categoryId })
+	const [staticPostList, _] = await PostService.getList({ page: 1, categoryId })
 
 	return {
 		props: {

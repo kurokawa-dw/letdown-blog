@@ -7,6 +7,16 @@ const nextConfig = {
 			process.env.ALLOWED_IMAGE_HOST
     ],
   },
+
+	// ルートを変更
+	async rewrites() {
+		return [
+			{
+				source: '/',
+				destination: '/1'
+			}
+		]
+	}
 }
 
 module.exports = nextConfig

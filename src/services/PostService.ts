@@ -9,12 +9,12 @@ class PostService {
 	static async getList({ page, categoryId }: {
 		page: number,
 		categoryId?: number
-	}): Promise<PostOnListType[]>{
+	}): Promise<[PostOnListType[], number]>{
 		try {
 			const offsetPagination = this._makeOffsetPaginationFromPage(page)
 			const res = await RepositoryFactory.post.getList({ offsetPagination, categoryId })
 			// console.log(res)
-			return res.data.data.posts.edges.map((data: any) => {
+			const postList = res.data.data.posts.edges.map((data: any) => {
 				const post: PostOnListType = {
 					id: data.node.id,
 					title: data.node.title,
@@ -32,8 +32,10 @@ class PostService {
 				return post
 				// return data.node
 			})
+
+			return [postList, res.data.data.posts.pageInfo.offsetPagination.total]
 		} catch {
-			return[]
+			return[[], 0]
 		}
 	}
 
@@ -99,6 +101,23 @@ class PostService {
 			return[]
 		}
 	}
+
+
+	static async getAllPageList(): Promise<{
+		params: {
+			page: string
+		}
+	}[]>{
+		const total = await this.getTotal()
+		const pageTotal = Math.ceil(total / PostConst.sizePerPage) // 3
+		const pageList = [...Array(pageTotal)].map((_, i) => i + 1) // [1,2,3]
+		return pageList.map((page: number) => {
+			return {
+				params: { page: page.toString() }
+			}
+		})
+	}
+
 
 	static async getCategoryIdBySlug({ slug }: {
 		slug: string

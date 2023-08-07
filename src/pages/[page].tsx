@@ -7,12 +7,17 @@ import usePostListSwr from '@/hooks/swr/usePostListSwr';
 import Postbox from '@/components/molecules/Postbox';
 import Layout from '@/components/templates/Layout';
 import PostConst from '@/constants/PostConst';
+import Pagination from '@/components/molecules/Pagination';
 
 
 
-const Home: NextPage<{staticPostList: PostOnListType[]}> = ({ staticPostList }) => {
-	// const postList = usePostListSwr({staticPostList})
-	const postList = staticPostList
+const Home: NextPage<{
+	staticPostList: PostOnListType[],
+	staticTotal: number,
+	currentPage: number
+}> = ({ staticPostList, staticTotal, currentPage }) => {
+	const [postList, total] = usePostListSwr({currentPage, staticPostList, staticTotal})
+	// const postList = staticPostList
 
   return (
 		<Layout>
@@ -25,19 +30,18 @@ const Home: NextPage<{staticPostList: PostOnListType[]}> = ({ staticPostList }) 
 					)
 				})}
 			</div>
+			<Pagination
+				total={total}
+				sizePerPage={PostConst.sizePerPage}
+				currentPage={currentPage}
+				path=''
+			 />
 		</Layout>
   )
 }
 
 export const getStaticPaths = async () => {
-	const total = await PostService.getTotal()
-	const pageTotal = Math.ceil(total / PostConst.sizePerPage) // 3
-	const pageList = [...Array(pageTotal)].map((_, i) => i + 1) // [1,2,3]
-	const paths = pageList.map((page: number) => {
-		return {
-			params: { page: page.toString() }
-		}
-	})
+	const paths = await PostService.getAllPageList()
 
 	return {
 		paths,
@@ -51,11 +55,13 @@ export const getStaticProps = async ({ params }: {
 		page: string,
 	}
 }) => {
-	const page = parseInt(params.page);
-	const staticPostList = await PostService.getList({page})
+	const currentPage = parseInt(params.page);
+	const [staticPostList, staticTotal] = await PostService.getList({page: currentPage})
 	return {
 		props: {
-			staticPostList
+			staticPostList,
+			staticTotal,
+			currentPage
 		},
 		revalidate: 10 //wp更新後 最初にアクセスがあった10秒後にssgがbuild これすごいね
 	}
