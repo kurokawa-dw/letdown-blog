@@ -42,16 +42,18 @@ const Home: NextPage<{
 }
 
 export const getStaticPaths = async () => {
-	const paths = await PostService.getAllPageList()
+	const paths = await PostService.getAllPageAndCategoryList()
 
 	return {
-		paths: [
-			{ params: { param: ['page', '1'] } },
-			{ params: { param: ['page', '2'] } },
-			{ params: { param: ['category', 'test', 'page', '1'] } },
-			{ params: { param: ['category', 'test', 'page', '2'] } },
-			{ params: { param: ['category', 'test2', 'page', '1'] } }
-		],
+		// この形が欲しのでPostService.getAllPageAndCategoryListで生成
+		// paths: [
+		// 	{ params: { param: ['page', '1'] } },
+		// 	{ params: { param: ['page', '2'] } },
+		// 	{ params: { param: ['category', 'test', 'page', '1'] } },
+		// 	{ params: { param: ['category', 'test', 'page', '2'] } },
+		// 	{ params: { param: ['category', 'test2', 'page', '1'] } }
+		// ],
+		paths,
 		fallback: false
 	}
 }

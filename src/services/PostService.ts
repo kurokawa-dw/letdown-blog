@@ -87,6 +87,42 @@ class PostService {
 	}
 
 
+	static async getAllPageAndCategoryList() {
+		const total = await this.getTotal()
+		const pageList = this._makePageList(total)
+		const allPageAndCategoryList = pageList.map((page: number) => { //ページナンバーが必要だからpageList.map
+			return {
+				params: { param: ['page', page.toString()] }
+			}
+			// こういう配列を返す
+			// [
+			// 	{ params: { param: ['page', '1'] } },
+			// 	{ params: { param: ['page', '2'] } },
+			// ]
+		})
+
+
+		// カテゴリーの種類ごとにそのカテゴリーが何ページになるか計算して、ページパラメーターを返す
+		const res = await RepositoryFactory.post.getAllCategorySlugList()
+		res.data.data.categories.edges.forEach((data: any) => { //カテゴリーの種類ごとにループ
+			const categorySulg = data.node.slug
+			const total = data.node.posts.pageInfo.offsetPagination.total
+			const pageList = this._makePageList(total)
+			pageList.forEach((page: number) => {
+				allPageAndCategoryList.push(
+					{
+						params: { param: ['category', categorySulg, 'page', page.toString()] }
+					}
+					// カテゴリー用に↓の形をさらにpushしていく
+					// { params: { param: ['category', 'test', 'page', '1'] } },
+				)
+			})
+		})
+
+		return allPageAndCategoryList
+	}
+
+
 	static async getAllCategorySlugList(): Promise<{
 		params: {
 			slug: string
@@ -134,6 +170,11 @@ class PostService {
 
 	private static _makeOffsetPaginationFromPage(page: number): OffsetPaginationType{
 		return {offset: (page - 1) * PostConst.sizePerPage, size: PostConst.sizePerPage}
+	}
+
+	private static _makePageList(total: number){
+		const pageTotal = Math.ceil(total / PostConst.sizePerPage) // 3
+		return [...Array(pageTotal)].map((_, i) => i + 1)
 	}
 }
 
