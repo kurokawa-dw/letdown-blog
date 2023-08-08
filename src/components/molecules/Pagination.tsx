@@ -1,4 +1,5 @@
 import PostConst from "@/constants/PostConst"
+import Link from "next/link"
 
 const Pagination = ({total, sizePerPage, currentPage, path}: {
 	total: number,
@@ -18,7 +19,7 @@ const Pagination = ({total, sizePerPage, currentPage, path}: {
 
         <div>
           <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-            <a
+            <Link
               href={`${path}/1`}
               className="relative inline-flex items-center rounded-l-md px-3 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
             >
@@ -27,9 +28,9 @@ const Pagination = ({total, sizePerPage, currentPage, path}: {
 								<path strokeLinecap="round" strokeLinejoin="round" d="M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5" />
 							</svg>
 
-            </a>
+            </Link>
 
-						<a
+						<Link
               href={`${path}/${Math.max(1, currentPage-1)}`}
               className="relative inline-flex items-center px-3 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
             >
@@ -37,7 +38,7 @@ const Pagination = ({total, sizePerPage, currentPage, path}: {
 							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
 								<path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
 							</svg>
-            </a>
+            </Link>
 
 
 						{
@@ -61,15 +62,15 @@ const Pagination = ({total, sizePerPage, currentPage, path}: {
 
 
 								return (
-									<a key={i} href={`${path}/${page}`} aria-current="page" className={currentPage == page ? "relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" : "relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"}>
+									<Link key={i} href={`${path}/${page}`} aria-current="page" className={currentPage == page ? "relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" : "relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"}>
 										{page}
-									</a>
+									</Link>
 								)
 							})
 						}
 
 
-						<a
+						<Link
               href={`${path}/${Math.min(totalPage, currentPage+1)}`}
               className="relative inline-flex items-center px-3 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
             >
@@ -77,8 +78,8 @@ const Pagination = ({total, sizePerPage, currentPage, path}: {
 							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
 								<path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
 							</svg>
-            </a>
-            <a
+            </Link>
+            <Link
               href={`${path}/${totalPage}`}
               className="relative inline-flex items-center rounded-r-md px-3 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
             >
@@ -87,7 +88,7 @@ const Pagination = ({total, sizePerPage, currentPage, path}: {
 								<path strokeLinecap="round" strokeLinejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" />
 							</svg>
 
-            </a>
+            </Link>
           </nav>
         </div>
       </div>
