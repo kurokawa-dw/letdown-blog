@@ -15,8 +15,10 @@ const Home: NextPage<{
 	staticTotal: number,
 	currentPage: number
 	staticCategoryId: number | null
-}> = ({ staticPostList, staticTotal, currentPage, staticCategoryId }) => {
+	staticCategorySlug: string | null
+}> = ({ staticPostList, staticTotal, currentPage, staticCategoryId, staticCategorySlug }) => {
 	const categoryId = staticCategoryId ?? undefined
+	const categorySlug = staticCategorySlug ?? undefined
 	const [postList, total] = usePostListSwr({currentPage, staticPostList, staticTotal, categoryId})
 	// const [postList, total] = [staticPostList, staticTotal]
 
@@ -35,7 +37,7 @@ const Home: NextPage<{
 				total={total}
 				sizePerPage={PostConst.sizePerPage}
 				currentPage={currentPage}
-				path=''
+				path={`${categorySlug ? `/category/${categorySlug}` : ''}/page`}
 			 />
 		</Layout>
   )
@@ -69,11 +71,13 @@ export const getStaticProps = async ({ params }: {
 	const param = params.param
 	let currentPage = 1
 	let categoryId: number | undefined
+	let categorySlug: string | undefined
 
 	if(param.length === 2 && param[0] === 'page'){
 		currentPage = parseInt(param[1])
 	} else if(param.length === 4 && param[0] === 'category' && param[2] === 'page'){
-		categoryId = await PostService.getCategoryIdBySlug({ slug: param[1] });
+		categorySlug = param[1]
+		categoryId = await PostService.getCategoryIdBySlug({ slug: categorySlug });
 		currentPage = parseInt(param[3])
 	}
 
@@ -83,7 +87,8 @@ export const getStaticProps = async ({ params }: {
 			staticPostList,
 			staticTotal,
 			currentPage,
-			staticCategoryId: categoryId ?? null
+			staticCategoryId: categoryId ?? null,
+			staticCategorySlug: categorySlug ?? null
 		},
 		revalidate: 10 //wp更新後 最初にアクセスがあった10秒後にssgがbuild これすごいね
 	}

@@ -123,36 +123,36 @@ class PostService {
 	}
 
 
-	static async getAllCategorySlugList(): Promise<{
-		params: {
-			slug: string
-		}
-	}[]>{
-		try {
-			const res = await RepositoryFactory.post.getAllCategorySlugList()
-			return res.data.data.categories.edges.map((data: any) => {
-				return { params: {slug: data.node.slug}}
-			})
-		} catch {
-			return[]
-		}
-	}
+	// static async getAllCategorySlugList(): Promise<{
+	// 	params: {
+	// 		slug: string
+	// 	}
+	// }[]>{
+	// 	try {
+	// 		const res = await RepositoryFactory.post.getAllCategorySlugList()
+	// 		return res.data.data.categories.edges.map((data: any) => {
+	// 			return { params: {slug: data.node.slug}}
+	// 		})
+	// 	} catch {
+	// 		return[]
+	// 	}
+	// }
 
 
-	static async getAllPageList(): Promise<{
-		params: {
-			page: string
-		}
-	}[]>{
-		const total = await this.getTotal()
-		const pageTotal = Math.ceil(total / PostConst.sizePerPage) // 3
-		const pageList = [...Array(pageTotal)].map((_, i) => i + 1) // [1,2,3]
-		return pageList.map((page: number) => {
-			return {
-				params: { page: page.toString() }
-			}
-		})
-	}
+	// static async getAllPageList(): Promise<{
+	// 	params: {
+	// 		page: string
+	// 	}
+	// }[]>{
+	// 	const total = await this.getTotal()
+	// 	const pageTotal = Math.ceil(total / PostConst.sizePerPage) // 3
+	// 	const pageList = [...Array(pageTotal)].map((_, i) => i + 1) // [1,2,3]
+	// 	return pageList.map((page: number) => {
+	// 		return {
+	// 			params: { page: page.toString() }
+	// 		}
+	// 	})
+	// }
 
 
 	static async getCategoryIdBySlug({ slug }: {
